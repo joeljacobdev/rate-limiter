@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 from lib import LimiterMixin, TokenBucket, InMemoryClient
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -12,7 +13,7 @@ class LimiterMiddleware(LimiterMixin, BaseHTTPMiddleware):
 
     @staticmethod
     def get_key(request):
-        raise request.scope['path']
+        return request.scope['path']
 
 
 @app.get("/")
@@ -24,3 +25,7 @@ app.add_middleware(
     LimiterMiddleware,
     algorithm=TokenBucket(client=InMemoryClient())
 )
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

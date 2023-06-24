@@ -1,2 +1,2 @@
-from .token_buket import TokenBucket
+from .token_bucket import TokenBucket
 from .sliding_window import SlidingWindow

@@ -8,7 +8,7 @@ class LimiterMixin:
 
     async def handle_request(self, request):
         key = self.get_key(request)
-        if not await self.algorithm.check_rate(key):
+        if not await self.algorithm.consume(key):
             return await self.handle_limit_exceeded(request)
 
     @staticmethod

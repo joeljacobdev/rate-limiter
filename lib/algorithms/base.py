@@ -8,8 +8,20 @@ class BaseAlgorithm:
         self.allowed_rate = allowed_rate
         self.rate_duration = rate_duration
 
-    async def check_rate(self, key) -> bool:
+    async def consume(self, key) -> bool:
+        """
+        return true if capacity is consumed for the key
+        :param key:
+        :return: boolean, True if consumed else False
+        """
         raise NotImplementedError
 
-    def prepare_data(self):
+    async def refill(self, key):
+        raise NotImplementedError
+
+    def prepare_data(self) -> dict:
+        """
+        Initial data to be stored for a key
+        :return: dict
+        """
         raise NotImplementedError
