@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-from lib.limiter import LimiterMixin
-from lib.algorithms.base import TokenBucket
-from lib.storage.in_memory import InMemoryClient
+from lib import LimiterMixin, TokenBucket, InMemoryClient
 from starlette.middleware.base import BaseHTTPMiddleware
 
 app = FastAPI()
