@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6f55ac841c8e6bc443da9c7f5cc379d4abf75e4e88df0220537c924e12b48162"
+            "sha256": "26cec0518960002a7fed15d68b7979b593bdd10a4720f103ff24ddaff03db1ea"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -17,14 +17,6 @@
         ]
     },
     "default": {
-        "aiosqlite": {
-            "hashes": [
-                "sha256:95ee77b91c8d2808bd08a59fbebf66270e9090c3d92ffbf260dc0db0b979577d",
-                "sha256:edba222e03453e094a3ce605db1b970c4b3376264e56f32e2a4959f948d66a96"
-            ],
-            "index": "pypi",
-            "version": "==0.19.0"
-        },
         "anyio": {
             "hashes": [
                 "sha256:275d9973793619a5374e1c89a4f4ad3f4b0a5510a2b5b939444bee8f4c4d37ce",
@@ -106,6 +98,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==1.10.9"
+        },
+        "redis": {
+            "hashes": [
+                "sha256:77929bc7f5dab9adf3acba2d3bb7d7658f1e0c2f1cafe7eb36434e751c471119",
+                "sha256:dc87a0bdef6c8bfe1ef1e1c40be7034390c2ae02d92dcd0c7ca1729443899880"
+            ],
+            "index": "pypi",
+            "version": "==4.5.5"
         },
         "sniffio": {
             "hashes": [

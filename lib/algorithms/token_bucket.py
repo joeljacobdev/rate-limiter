@@ -1,7 +1,7 @@
-import datetime
+from typing import Union
+from lib.storage import InMemoryClient, StorageResponse
 
 from lib.algorithms.base import BaseAlgorithm
-from lib.storage.base import StorageResponse
 
 
 class TokenBucket(BaseAlgorithm):
@@ -13,20 +13,25 @@ class TokenBucket(BaseAlgorithm):
     }
     """
     async def consume(self, key) -> bool:
-        data = await self.client.increment_and_get(key, refill_if_needed=self.refill)
-        return data.ctr < self.allowed_rate
+        lock = await self.client.get_lock(key)
+        await self.refill(key)
+        ctr = await self.client.increment(key)
+        await self.client.release_lock(lock)
+        return ctr <= self.allowed_rate
 
     async def refill(self, key) -> StorageResponse:
-        data = await self.client.get(key, skip_lock=True)
-        executed_at = datetime.datetime.now().timestamp()
-        if not data or data.ttl < executed_at:
+        data = await self.client.get(key)
+        if data is None:
             data = self.prepare_data()
-            data = StorageResponse(**data)
-        data.executed_at = executed_at
+        await self.client.set(
+            key, data, ttl=self.rate_duration
+        )
         return data
 
-    def prepare_data(self):
-        return {
-            'ctr': 0,
-            'ttl': (datetime.datetime.now() + datetime.timedelta(seconds=self.rate_duration)).timestamp()
-        }
+    def prepare_data(self) -> Union[int, dict]:
+        # TODO: improve this
+        if isinstance(self.client, InMemoryClient):
+            return {
+                'ctr': 0
+            }
+        return 0

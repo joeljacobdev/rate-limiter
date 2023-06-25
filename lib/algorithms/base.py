@@ -10,7 +10,8 @@ class BaseAlgorithm:
 
     async def consume(self, key) -> bool:
         """
-        return true if capacity is consumed for the key
+        Return true if capacity is consumed for the :key.
+        Takes lock, refill if criteria met and then increment count and finally releases lock
         :param key:
         :return: boolean, True if consumed else False
         """

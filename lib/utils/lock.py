@@ -6,23 +6,21 @@ class LockManager:
         self.global_lock = threading.Lock()
         self.locks = {}
 
-    def get_lock(self, key, skip_lock=False):
+    def get_lock(self, key):
         with self.global_lock:
             if key not in self.locks:
                 self.locks[key] = threading.Lock()
-        return Lock(self.locks[key], skip_lock=skip_lock)
+        lock = Lock(self.locks[key])
+        return lock
 
 
 class Lock:
-    def __init__(self, lock: threading.Lock, skip_lock: bool):
+    def __init__(self, lock: threading.Lock):
         self.lock = lock
-        self.skip_lock = skip_lock
 
     def __enter__(self):
-        if not self.skip_lock:
-            self.lock.acquire()
+        self.lock.acquire()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if not self.skip_lock:
-            self.lock.release()
+        self.lock.release()
 
